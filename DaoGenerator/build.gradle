@@ -1,5 +1,6 @@
 import de.greenrobot.daogenerator.DaoGenerator;
-import de.greenrobot.daogenerator.Entity;
+import de.greenrobot.daogenerator.Entity
+import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 
 // DB Version
@@ -21,7 +22,7 @@ task daoGenerator {
     description 'DAOクラスの生成をします'
 
     println 'in daoGenerator task'
-    doLast {
+    def last = doLast {
         /**
          *  ここでテーブルの定義を行い、
          *  build.gradle# run
@@ -48,9 +49,16 @@ task daoGenerator {
 
         Entity regsisteredBooks = schema.addEntity("RegisteredBooks");
         regsisteredBooks.addIdProperty();
-        regsisteredBooks.addIntProperty("bookTitleID");
-        regsisteredBooks.addIntProperty("authorID");
-        regsisteredBooks.addIntProperty("publisherID");
+
+        Property bookTitleId = regsisteredBooks.addLongProperty("bookTitleID").getProperty();
+        regsisteredBooks.addToOne(bookTitles, bookTitleId);
+
+        Property authId = regsisteredBooks.addLongProperty("authorID").getProperty();
+        regsisteredBooks.addToOne(authors, authId);
+
+        Property publisherId = regsisteredBooks.addLongProperty("publisherID").getProperty();
+        regsisteredBooks.addToOne(publishers, publisherId);
+
         regsisteredBooks.addStringProperty("modTitle");
         regsisteredBooks.addStringProperty("modTitleKana");
         regsisteredBooks.addStringProperty("modAuthor");
@@ -72,6 +80,7 @@ task daoGenerator {
 
         }
     }
+    last
 
     println 'out daoGenerator task'
 }
