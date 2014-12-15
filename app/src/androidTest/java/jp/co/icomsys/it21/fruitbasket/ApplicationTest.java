@@ -27,5 +27,6 @@ public class ApplicationTest {
     @Test
     public void testSample() {
         Assert.assertEquals("a", "a");
+
     }
 }
