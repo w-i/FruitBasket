@@ -2,14 +2,12 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity
 import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
-
 // DB Version
 def dbVersion = 1
 // Dao Package Name
 def daoOutputPackage = "jp.co.icomsys.it21.fruitbasket.dao"
 // Output Directory Path
 def daoOutputDirPath = "app/src/main/java-gen"
-
 task daoGeneratorClean(type: Delete) {
     description 'DAOクラスの自動生成の出力先ディレクトリを削除します'
 
@@ -17,7 +15,6 @@ task daoGeneratorClean(type: Delete) {
     delete "../${daoOutputDirPath}"
     println 'out daoGeneratorClean task'
 }
-
 task daoGenerator {
     description 'DAOクラスの生成をします'
 
@@ -26,8 +23,7 @@ task daoGenerator {
         /**
          *  ここでテーブルの定義を行い、
          *  build.gradle# run
-         *  でコードを ${daoOutputDirPath}
-         *  配下に自動生成する。
+         *  でコードを ${daoOutputDirPath}*  配下に自動生成する。
          */
 
         Schema schema = new Schema(dbVersion, daoOutputPackage);
@@ -70,7 +66,7 @@ task daoGenerator {
         try {
             // ディレクトリ作成
             File file = new File(daoOutputDirPath);
-            if ( !file.exists() ) file.mkdirs();
+            if (!file.exists()) file.mkdirs();
 
             // コード生成
             new DaoGenerator().generateAll(schema, daoOutputDirPath);
@@ -84,8 +80,9 @@ task daoGenerator {
 
     println 'out daoGenerator task'
 }
-
 task run {
     tasks.daoGeneratorClean.execute()
     tasks.daoGenerator.execute()
+}
+dependencies {
 }
